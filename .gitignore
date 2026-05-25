@@ -1,0 +1,11 @@
+# Dépendances (Node/JS)
+**/node_modules/
+
+# Variables d'environnement secrètes
+**/.env
+**/.env.local
+
+# Fichiers système et logs
+.DS_Store
+**/logs/
+*.log
