@@ -1,3 +1,10 @@
 {
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "yaml.schemas": {
+    "https://json.schemastore.org/spring-boot-configuration-metadata.json": [
+      "backend/src/main/resources/application*.yml",
+      "backend/src/main/resources/application*.yaml"
+    ]
+  },
+  "java.compile.nullAnalysis.mode": "automatic"
 }

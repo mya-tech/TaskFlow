@@ -1,58 +1,46 @@
 package com.example.demo.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import com.example.demo.model.Task;
+import com.example.demo.repository.TaskRepository;
 import com.example.demo.model.Priority;
 import com.example.demo.model.Status;
 
 @Service
 public class TaskService {
 
-    private final List<Task> tasks = new ArrayList<>();
+    // private final List<Task> tasks = new ArrayList<>();
+    private final TaskRepository taskRepository;
+
+    // Constructeur pour l'injection de dépendance
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     // Getter for tasks (needed by controller)
     public List<Task> getTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     public Task getTaskById(Long id) {
-        for (Task task : tasks) {
-            if (task.getId() == id) {
-                return task;
-            }
-        }
-        return null; // or throw an exception
+        return taskRepository.findById(id).orElse(null);
     }
 
     public List<Task> getTasksByPriority(Priority priority) {
-        List<Task> filteredTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getPriority() == priority) {
-                filteredTasks.add(task);
-            }
-        }
-        return filteredTasks;
+        return taskRepository.findByPriority(priority);
     }
 
     public List<Task> getTasksByStatus(Status status) {
-        List<Task> filteredTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getStatus() == status) {
-                filteredTasks.add(task);
-            }
-        }
-        return filteredTasks;
+        return taskRepository.findByStatus(status);
     }
 
     // READ ONE
 
     public Task createTask(Task task) {
-        tasks.add(task);
-        return task;
+        return taskRepository.save(task);
     }
 
     public Task updateTask(Long id, Task updatedTask) {
@@ -94,7 +82,7 @@ public class TaskService {
     public void deleteTask(Long id) {
         Task task = getTaskById(id);
         if (task != null) {
-            tasks.remove(task);
+            taskRepository.delete(task);
         }
     }
 
